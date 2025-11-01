@@ -1,12 +1,9 @@
 import { Router } from 'express';
 import { prisma } from '../lib/prisma.js';
 
-const router = Router(); // <--- 1. Use 'router' em vez de 'cosmeticRoutes'
+const router = Router();
 
-/**
- * [GET] /api/cosmetics
- */
-router.get('/cosmetics', async (req, res) => { // <--- 2. Use 'router.get'
+router.get('/cosmetics', async (req, res) => {
     try {
         const cosmetics = await prisma.cosmetic.findMany({
             orderBy: { name: 'asc' },
@@ -18,10 +15,7 @@ router.get('/cosmetics', async (req, res) => { // <--- 2. Use 'router.get'
     }
 });
 
-/**
- * [GET] /api/cosmetics/new
- */
-router.get('/cosmetics/new', async (req, res) => { // <--- 3. Use 'router.get'
+router.get('/cosmetics/new', async (req, res) => {
     try {
         const newCosmetics = await prisma.cosmetic.findMany({
             where: { isNew: true },
@@ -69,5 +63,4 @@ router.get('/shop', async (req, res) => {
     }
 })
 
-// 4. Exporte exatamente como você fez no testRoutes
 export { router as cosmeticRoutes };

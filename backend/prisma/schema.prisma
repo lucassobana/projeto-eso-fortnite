@@ -14,20 +14,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Modelo de Usuário
 model User {
   id           String    @id @default(uuid())
   email        String    @unique
-  passwordHash String    // (Vamos adicionar a lógica de hash depois)
+  passwordHash String    
   vbucks       Int       @default(10000)
   
   inventory    UserInventory[]
   transactions TransactionHistory[]
 }
 
-// Modelo de Cosmético
 model Cosmetic {
-  id         String  @id // ID da API do Fortnite
+  id         String  @id 
   name       String
   description String?
   type       String?
@@ -41,7 +39,6 @@ model Cosmetic {
   owners     UserInventory[]
 }
 
-// Modelo para "Itens Adquiridos"
 model UserInventory {
   id           String   @id @default(uuid())
   acquiredAt   DateTime @default(now())
@@ -52,13 +49,12 @@ model UserInventory {
   cosmeticId   String
   cosmetic     Cosmetic @relation(fields: [cosmeticId], references: [id])
 
-  @@unique([userId, cosmeticId]) // Usuário só pode ter um de cada
+  @@unique([userId, cosmeticId]) 
 }
 
-// Modelo para Histórico de Compras/Devoluções
 model TransactionHistory {
   id           String   @id @default(uuid())
-  type         String   // "PURCHASE" ou "RETURN"
+  type         String   
   amountVbucks Int      
   createdAt    DateTime @default(now())
 
