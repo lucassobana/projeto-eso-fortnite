@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Modelo de Usuário
+model User {
+  id           String    @id @default(uuid())
+  email        String    @unique
+  passwordHash String    // (Vamos adicionar a lógica de hash depois)
+  vbucks       Int       @default(10000)
+  
+  inventory    UserInventory[]
+  transactions TransactionHistory[]
+}
+
+// Modelo de Cosmético
+model Cosmetic {
+  id         String  @id // ID da API do Fortnite
+  name       String
+  description String?
+  type       String?
+  rarity     String?
+  imageUrl   String?
+  price      Int     @default(0)
+
+  isNew      Boolean @default(false)
+  isOnSale   Boolean @default(false)
+
+  owners     UserInventory[]
+}
+
+// Modelo para "Itens Adquiridos"
+model UserInventory {
+  id           String   @id @default(uuid())
+  acquiredAt   DateTime @default(now())
+  
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  
+  cosmeticId   String
+  cosmetic     Cosmetic @relation(fields: [cosmeticId], references: [id])
+
+  @@unique([userId, cosmeticId]) // Usuário só pode ter um de cada
+}
+
+// Modelo para Histórico de Compras/Devoluções
+model TransactionHistory {
+  id           String   @id @default(uuid())
+  type         String   // "PURCHASE" ou "RETURN"
+  amountVbucks Int      
+  createdAt    DateTime @default(now())
+
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  
+  cosmeticId   String
+}
