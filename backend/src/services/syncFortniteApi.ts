@@ -48,17 +48,16 @@ export async function syncFortniteApi() {
     const newCosmeticsResponse = await axios.get(NEW_COSMETICS_URL, { headers });
 
     const newCosmeticsData = newCosmeticsResponse.data.data;
-    const newCosmeticsArray = (newCosmeticsData && newCosmeticsData.items && Array.isArray(newCosmeticsData.items.br))
-      ? newCosmeticsData.items.br
+
+    const newCosmeticsArray = (newCosmeticsData && Array.isArray(newCosmeticsData.items))
+      ? newCosmeticsData.items
       : [];
 
     const newCosmeticIds = new Set(newCosmeticsArray.map((c: ApiCosmetic) => c.id));
 
     console.log('Buscando /shop...');
     const shopResponse = await axios.get(SHOP_URL, { headers });
-
     const shopData = shopResponse.data.data;
-
     const shopCosmeticsMap = new Map<string, number>();
 
     const shopEntries = (shopData && Array.isArray(shopData.entries))
@@ -67,7 +66,6 @@ export async function syncFortniteApi() {
 
     shopEntries.forEach((entry: any) => {
       const price = entry.finalPrice || 0;
-
       if (Array.isArray(entry.brItems)) {
         entry.brItems.forEach((item: any) => {
           shopCosmeticsMap.set(item.id, price);
@@ -79,51 +77,56 @@ export async function syncFortniteApi() {
     console.log(`Encontrados ${newCosmeticIds.size} cosméticos novos.`);
     console.log(`Encontrados ${shopCosmeticsMap.size} cosméticos à venda.`);
 
-    console.log('Iniciando transação com o banco de dados...');
-
     if (allCosmetics.length === 0) {
-      console.log('Nenhum cosmético principal encontrado. A transação será pulada.');
-      await prisma.$disconnect();
+      console.log('Nenhum cosmético principal encontrado. A sincronização será pulada.');
       return;
     }
 
-    const transactions = allCosmetics.map((cosmetic: ApiCosmetic) => {
-      const isNew = newCosmeticIds.has(cosmetic.id);
-      const isOnSale = shopCosmeticsMap.has(cosmetic.id);
-      const price = shopCosmeticsMap.get(cosmetic.id) || 0;
+    console.log('Iniciando processamento em lotes...');
+    const BATCH_SIZE = 100;
+    const totalBatches = Math.ceil(allCosmetics.length / BATCH_SIZE);
 
-      const dataForDb = {
-        id: cosmetic.id,
-        name: cosmetic.name,
-        description: cosmetic.description ?? null,
-        type: cosmetic.type?.value ?? null,
-        rarity: cosmetic.rarity?.value ?? null,
-        imageUrl: cosmetic.images?.icon ?? null,
-        price,
-        isNew,
-        isOnSale,
-      };
+    for (let i = 0; i < allCosmetics.length; i += BATCH_SIZE) {
+      const batch = allCosmetics.slice(i, i + BATCH_SIZE);
+      console.log(`Processando lote ${Math.floor(i / BATCH_SIZE) + 1} de ${totalBatches}...`);
 
-      return prisma.cosmetic.upsert({
-        where: { id: cosmetic.id },
-        update: dataForDb,
-        create: dataForDb,
+      const batchTransactions = batch.map((cosmetic: ApiCosmetic) => {
+        const isNew = newCosmeticIds.has(cosmetic.id);
+        const isOnSale = shopCosmeticsMap.has(cosmetic.id);
+        const price = shopCosmeticsMap.get(cosmetic.id) || 0;
+
+        const dataForDb = {
+          id: cosmetic.id,
+          name: cosmetic.name,
+          description: cosmetic.description ?? null,
+          type: cosmetic.type?.value ?? null,
+          rarity: cosmetic.rarity?.value ?? null,
+          imageUrl: cosmetic.images?.icon ?? null,
+          price,
+          isNew,
+          isOnSale,
+        };
+
+        return prisma.cosmetic.upsert({
+          where: { id: cosmetic.id },
+          update: dataForDb,
+          create: dataForDb,
+        });
       });
-    });
 
-    await prisma.$transaction(transactions);
+      await prisma.$transaction(batchTransactions);
+    }
 
     console.log('✅ Sincronização concluída com sucesso!');
 
   } catch (error: any) {
-
     if (axios.isAxiosError(error) && error.response) {
       console.error('❌ Erro na resposta da API:', JSON.stringify(error.response.data, null, 2));
     } else {
       console.error('❌ Erro durante a sincronização:', error);
     }
-
   } finally {
     await prisma.$disconnect();
+    console.log('Conexão do Prisma fechada.');
   }
 }
