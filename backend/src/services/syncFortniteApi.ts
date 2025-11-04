@@ -45,6 +45,8 @@ export async function syncFortniteApi() {
 
     console.log('Buscando /cosmetics/new...');
     const newCosmeticsResponse = await axios.get(NEW_COSMETICS_URL, { headers });
+    console.log('--- DEBUG: Resposta crua de /cosmetics/new ---');
+    console.log(JSON.stringify(newCosmeticsResponse?.data?.data, null, 2));
     const newCosmeticsArray = Array.isArray(newCosmeticsResponse?.data?.data?.items)
       ? newCosmeticsResponse.data.data.items
       : [];
