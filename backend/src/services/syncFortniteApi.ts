@@ -39,20 +39,15 @@ export async function syncFortniteApi() {
   try {
     console.log('Buscando /cosmetics...');
     const cosmeticsResponse = await axios.get(COSMETICS_URL, { headers });
-    const allCosmeticsData = cosmeticsResponse.data.data;
-    const allCosmetics = Array.isArray(allCosmeticsData)
-      ? allCosmeticsData
+    const allCosmetics = Array.isArray(cosmeticsResponse?.data?.data)
+      ? cosmeticsResponse.data.data
       : [];
 
     console.log('Buscando /cosmetics/new...');
     const newCosmeticsResponse = await axios.get(NEW_COSMETICS_URL, { headers });
-
-    const newCosmeticsData = newCosmeticsResponse.data.data;
-
-    const newCosmeticsArray = (newCosmeticsData && Array.isArray(newCosmeticsData.items))
-      ? newCosmeticsData.items
+    const newCosmeticsArray = Array.isArray(newCosmeticsResponse?.data?.data?.items)
+      ? newCosmeticsResponse.data.data.items
       : [];
-
     const newCosmeticIds = new Set(newCosmeticsArray.map((c: ApiCosmetic) => c.id));
 
     console.log('Buscando /shop...');
@@ -82,39 +77,39 @@ export async function syncFortniteApi() {
       return;
     }
 
-    console.log('Iniciando processamento em lotes...');
-    const BATCH_SIZE = 100;
-    const totalBatches = Math.ceil(allCosmetics.length / BATCH_SIZE);
+    console.log('Iniciando processamento sequencial (um por um)...');
 
-    for (let i = 0; i < allCosmetics.length; i += BATCH_SIZE) {
-      const batch = allCosmetics.slice(i, i + BATCH_SIZE);
-      console.log(`Processando lote ${Math.floor(i / BATCH_SIZE) + 1} de ${totalBatches}...`);
+    const totalCosmetics = allCosmetics.length;
+    let count = 0;
 
-      const batchTransactions = batch.map((cosmetic: ApiCosmetic) => {
-        const isNew = newCosmeticIds.has(cosmetic.id);
-        const isOnSale = shopCosmeticsMap.has(cosmetic.id);
-        const price = shopCosmeticsMap.get(cosmetic.id) || 0;
+    for (const cosmetic of allCosmetics) {
+      count++;
 
-        const dataForDb = {
-          id: cosmetic.id,
-          name: cosmetic.name,
-          description: cosmetic.description ?? null,
-          type: cosmetic.type?.value ?? null,
-          rarity: cosmetic.rarity?.value ?? null,
-          imageUrl: cosmetic.images?.icon ?? null,
-          price,
-          isNew,
-          isOnSale,
-        };
+      if (count % 100 === 0 || count === totalCosmetics) {
+        console.log(`Processando item ${count} de ${totalCosmetics}...`);
+      }
 
-        return prisma.cosmetic.upsert({
-          where: { id: cosmetic.id },
-          update: dataForDb,
-          create: dataForDb,
-        });
+      const isNew = newCosmeticIds.has(cosmetic.id);
+      const isOnSale = shopCosmeticsMap.has(cosmetic.id);
+      const price = shopCosmeticsMap.get(cosmetic.id) || 0;
+
+      const dataForDb = {
+        id: cosmetic.id,
+        name: cosmetic.name,
+        description: cosmetic.description ?? null,
+        type: cosmetic.type?.value ?? null,
+        rarity: cosmetic.rarity?.value ?? null,
+        imageUrl: cosmetic.images?.icon ?? null,
+        price,
+        isNew,
+        isOnSale,
+      };
+
+      await prisma.cosmetic.upsert({
+        where: { id: cosmetic.id },
+        update: dataForDb,
+        create: dataForDb,
       });
-
-      await prisma.$transaction(batchTransactions);
     }
 
     console.log('✅ Sincronização concluída com sucesso!');
