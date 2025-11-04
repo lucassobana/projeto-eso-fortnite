@@ -1,9 +1,9 @@
 import express from 'express';
 import cors from 'cors';
-import cron from 'node-cron';
+// import cron from 'node-cron';
 
 import { cosmeticRoutes } from './routes/cosmeticRoutes.js';
-import { syncFortniteApi } from './services/syncFortniteApi.js';
+// import { syncFortniteApi } from './services/syncFortniteApi.js';
 
 async function startServer() {
   const app = express();
@@ -14,19 +14,18 @@ async function startServer() {
 
   app.use('/api', cosmeticRoutes);
 
-  console.log('Sincronização inicial em andamento...');
-  await syncFortniteApi();
-  console.log('Sincronização inicial concluída.');
+  // console.log('Sincronização inicial em andamento...');
+  // await syncFortniteApi();
+  // console.log('Sincronização inicial concluída.');
 
-  cron.schedule('0 */4 * * *', async () => {
-    console.log('Executando sincronização agendada (a cada 4 horas)...');
-    await syncFortniteApi();
-    console.log('Sincronização agendada concluída.');
-  });
+  // cron.schedule('0 8 * * *', async () => {
+  //   console.log('Executando sincronização agendada (às 8:00 da manhã)...');
+  //   await syncFortniteApi();
+  //   console.log('Sincronização agendada concluída.');
+  // });
 
   app.listen(port, () => {
     console.log(`🚀 Servidor backend rodando em http://localhost:${port}`);
-    console.log(`Sincronização automática agendada para cada 4 horas.`);
   });
 }
 

@@ -36,6 +36,8 @@ model Cosmetic {
   isNew      Boolean @default(false)
   isOnSale   Boolean @default(false)
 
+  addedAt     DateTime @default(now())
+  
   owners     UserInventory[]
 }
 
