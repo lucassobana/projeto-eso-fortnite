@@ -8,11 +8,11 @@ const router = Router();
 router.get('/cosmetics', async (req, res) => {
     try {
         const {
-            name,        
-            type,        
-            rarity,      
-            startDate,   
-            endDate,     
+            name,
+            type,
+            rarity,
+            startDate,
+            endDate,
             isNew,
             isOnSale
         } = req.query;
@@ -37,12 +37,12 @@ router.get('/cosmetics', async (req, res) => {
         const dateFilter: Prisma.DateTimeFilter = {}
 
         if (startDate) {
-            dateFilter.gte = new Date(String(startDate)); 
+            dateFilter.gte = new Date(String(startDate));
         }
         if (endDate) {
             const adjustedEndDate = new Date(String(endDate));
             adjustedEndDate.setDate(adjustedEndDate.getDate() + 1);
-            dateFilter.lt = adjustedEndDate; 
+            dateFilter.lt = adjustedEndDate;
         }
 
         if (Object.keys(dateFilter).length > 0) {
@@ -122,7 +122,7 @@ router.get('/shop', async (req, res) => {
     }
 })
 
-router.post('/sync', async (req, res) => {
+router.post('/sync', (req, res) => {
     console.log('Recebida requisição de sincronização...');
 
     const authHeader = req.headers.authorization;
@@ -138,15 +138,18 @@ router.post('/sync', async (req, res) => {
         return res.status(401).json({ error: 'Não autorizado' });
     }
 
-    try {
-        console.log('Autorização OK. Iniciando syncFortniteApi...');
-        await syncFortniteApi();
-        console.log('Sincronização concluída com sucesso pela rota /sync.');
-        res.status(200).json({ message: 'Sincronização concluída com sucesso' });
-    } catch (error) {
-        console.error('Erro durante a sincronização via rota /sync:', error);
-        res.status(500).json({ error: 'Erro ao executar a sincronização' });
-    }
+    console.log('Autorização OK. Respondendo 202 (Accepted) e iniciando sync em segundo plano.');
+    res.status(202).json({ message: 'Sincronização aceite. O processo foi iniciado em segundo plano.' });
+
+    (async () => {
+        try {
+            console.log('Iniciando syncFortniteApi em segundo plano...');
+            await syncFortniteApi();
+            console.log('Sincronização em segundo plano concluída com sucesso.');
+        } catch (error) {
+            console.error('Erro durante a sincronização em segundo plano:', error);
+        }
+    })();
 });
 
 export { router as cosmeticRoutes };
