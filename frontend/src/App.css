@@ -1,0 +1,67 @@
+.app-layout {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  /* min-height: 100vh; */
+}
+
+.sidebar {
+  flex: 0 0 280px;
+  position: sticky;
+  top: 100px;
+  align-self: flex-start;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.skins-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1.5rem;
+  justify-items: center;
+}
+
+
+
+.loading,
+.no-results {
+  color: #fff;
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0;
+  flex-shrink: 0;
+}
+
+@media (min-width: 1280px) {
+  .skins-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+/* 💻 Medium screens (tablets / laptops): 4 columns */
+@media (max-width: 1279px) and (min-width: 768px) {
+  .app-layout {
+    flex-direction: row;
+    gap: 1rem;
+  }
+
+  .sidebar {
+    flex: 0 0 240px;
+  }
+
+  .skins-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
