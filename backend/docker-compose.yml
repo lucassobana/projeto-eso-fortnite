@@ -1,0 +1,39 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:16
+    container_name: postgres-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: project-eso-fortnite
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: backend
+    restart: on-failure
+    ports:
+      - "4000:4000"
+    environment:
+      DATABASE_URL: "postgresql://postgres:admin@db:5432/project-eso-fortnite"
+      PORT: 4000
+      FORTNITE_API_KEY: ${FORTNITE_API_KEY}
+    depends_on:
+      - db
+    # Garante que o app só suba quando o DB estiver pronto
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h db -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:

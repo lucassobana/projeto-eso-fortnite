@@ -7,7 +7,7 @@ import { syncFortniteApi } from './services/syncFortniteApi.js';
 
 async function startServer() {
   const app = express();
-  const port = process.env.PORT || 3333;
+  const port = process.env.PORT || 4000;
 
   app.use(cors());
   app.use(express.json());

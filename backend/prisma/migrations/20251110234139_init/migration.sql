@@ -17,6 +17,7 @@ CREATE TABLE "Cosmetic" (
     "rarity" TEXT,
     "imageUrl" TEXT,
     "price" INTEGER NOT NULL DEFAULT 0,
+    "addedAt" TIMESTAMP(3) NOT NULL,
     "isNew" BOOLEAN NOT NULL DEFAULT false,
     "isOnSale" BOOLEAN NOT NULL DEFAULT false,
 
