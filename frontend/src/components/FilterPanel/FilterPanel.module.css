@@ -1,0 +1,79 @@
+.filterPanel {
+  background-color: #0b192c;
+  color: #ffffff;
+  width: 380px;
+  padding: 24px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  font-family: "Inter", sans-serif;
+}
+
+.filterTitle {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filterGroup label {
+  font-size: 0.9rem;
+  color: #cbd5e1;
+}
+
+.filterGroup input[type="text"],
+.filterGroup select,
+.filterGroup input[type="date"] {
+  background-color: #091422;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 10px;
+  color: #ffffff;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.filterGroup input[type="text"]:focus,
+.filterGroup select:focus,
+.filterGroup input[type="date"]:focus {
+  border: 1px solid #339cff;
+  box-shadow: 0 0 0 1px #339cff;
+}
+
+.dateRange {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.checkboxGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.checkboxGroup input[type="checkbox"] {
+  accent-color: #d91e63;
+}
+
+.applyButton {
+  background-color: #9D0039;
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.applyButton:hover {
+  background-color: #4B001B;
+}
