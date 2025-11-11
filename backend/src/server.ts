@@ -4,6 +4,7 @@ import cron from 'node-cron';
 
 import { cosmeticRoutes } from './routes/cosmeticRoutes.js';
 import { syncFortniteApi } from './services/syncFortniteApi.js';
+import { auth } from './routes/auth.js';
 
 async function startServer() {
   const app = express();
@@ -13,6 +14,7 @@ async function startServer() {
   app.use(express.json());
 
   app.use('/api', cosmeticRoutes);
+  app.use('/api/auth', auth);
 
   console.log('Sincronização inicial em andamento...');
   await syncFortniteApi();
