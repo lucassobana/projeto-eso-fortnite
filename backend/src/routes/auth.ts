@@ -67,7 +67,6 @@ router.post("/login", async (req, res) => {
             return res.status(401).json({ error: "Senha incorreta." });
         }
 
-        // 🧾 Para este momento, apenas retornamos o usuário (sem JWT ainda)
         return res.status(200).json({
             message: "Login realizado com sucesso!",
             user: {
@@ -85,7 +84,7 @@ router.post("/login", async (req, res) => {
 router.get("/emails", async (req, res) => {
     try {
         const users = await prisma.user.findMany({
-            select: { email: true }, // retorna só o campo email
+            select: { email: true },
         });
 
         const emails = users.map((u) => u.email);
@@ -101,7 +100,7 @@ router.delete("/delete", async (req, res) => {
     const { email } = req.body;
     try {
         const user = await prisma.user.delete({
-            where: { email }, // retorna só o campo email
+            where: { email },
         });
 
         res.json({
