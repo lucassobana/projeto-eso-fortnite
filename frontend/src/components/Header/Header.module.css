@@ -101,3 +101,21 @@
 .icon {
     font-size: 18px;
 }
+
+.loginButton {
+  background: #2d2f36;
+  color: #fff;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  width: 100%;
+  cursor: pointer;
+  display: flex;
+  align-items: left;
+  gap: 8px;
+  transition: background 0.3s;
+}
+
+.loginButton:hover {
+  background: #3a3d45;
+}

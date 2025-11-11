@@ -127,3 +127,10 @@
 .button:hover {
   background-color: #c2185b;
 }
+
+.error {
+  color: #ff6b6b;
+  font-size: 14px;
+  margin-bottom: 6px;
+  text-align: center;
+}

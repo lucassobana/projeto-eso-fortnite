@@ -32,7 +32,7 @@ interface BackendItem {
   name: string;
   type: string;
   rarity: string;
-  addedAt: string;
+  added: string;
 }
 
 export function FilterPanel({ onApplyFilters }: FilterPanelProps) {
@@ -76,7 +76,7 @@ export function FilterPanel({ onApplyFilters }: FilterPanelProps) {
 
         // Define o intervalo de datas automaticamente
         const dates = data
-          .map((item) => new Date(item.addedAt).getTime())
+          .map((item) => new Date(item.added).getTime())
           .filter((d) => !isNaN(d));
 
         if (dates.length > 0) {

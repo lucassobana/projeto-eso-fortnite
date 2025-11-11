@@ -87,3 +87,15 @@
 .button:hover {
   background-color: #c2185b;
 }
+
+.success {
+  color: #4caf50;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.error {
+  color: #ff5252;
+  text-align: center;
+  margin-top: 10px;
+}
