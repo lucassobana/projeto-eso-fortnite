@@ -1,0 +1,20 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-light-blue: #002139;
+  --color-dark-blue: #1967a7be;
+
+  font-family: "K2D", sans-serif;
+
+}
+
+body {
+  background-color: #000B12;
+  overflow: hidden;
+  height: 100%;
+}
+
