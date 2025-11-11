@@ -9,6 +9,7 @@ interface SkinCardProps {
   isNew: boolean;
   isOnSale: boolean;
   owned?: boolean;
+  onClick?: () => void;
 }
 
 export function SkinCard({
@@ -19,14 +20,15 @@ export function SkinCard({
   isNew,
   isOnSale,
   owned = false,
+  onClick,
 }: SkinCardProps) {
   return (
-    <div className={styles.card}>
+    <div className={styles.card} onClick={onClick}>
       <div className={styles.imageContainer}>
         {imageUrl ? (
           <img src={imageUrl} alt={name} className={styles.image} />
         ) : (
-          <img src={logo} className={styles.image} />
+          <img src={logo} alt="Fallback" className={styles.image} />
         )}
         {isNew && <span className={styles.badgeNew}>NEW</span>}
         {isOnSale && <span className={styles.badgeSale}>SALE</span>}
