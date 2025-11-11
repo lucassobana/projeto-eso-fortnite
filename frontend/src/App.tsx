@@ -16,7 +16,7 @@ interface Item {
   price: number;
   isNew: boolean;
   isOnSale: boolean;
-  addedAt: string;
+  added: string;
 }
 
 export function App() {
@@ -47,7 +47,7 @@ export function App() {
   // Aplicar filtros
   function handleApplyFilters(filters: FilterValues) {
     const filtered = items.filter((item) => {
-      const addedDate = new Date(item.addedAt);
+      const addedDate = new Date(item.added);
       const startDate = filters.startDate ? new Date(filters.startDate) : null;
       const endDate = filters.endDate ? new Date(filters.endDate) : null;
 

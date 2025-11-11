@@ -1,4 +1,5 @@
 import styles from "./SkinCard.module.css";
+import logo from "../../assets/logo.png";
 
 interface SkinCardProps {
   name: string;
@@ -25,7 +26,7 @@ export function SkinCard({
         {imageUrl ? (
           <img src={imageUrl} alt={name} className={styles.image} />
         ) : (
-          <div className={styles.noImage}>Sem imagem</div>
+          <img src={logo} className={styles.image} />
         )}
         {isNew && <span className={styles.badgeNew}>NEW</span>}
         {isOnSale && <span className={styles.badgeSale}>SALE</span>}

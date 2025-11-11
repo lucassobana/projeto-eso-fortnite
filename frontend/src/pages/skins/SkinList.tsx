@@ -13,7 +13,7 @@ interface Cosmetic {
   price: number;
   isNew: boolean;
   isOnSale: boolean;
-  addedAt: string;
+  added: string;
 }
 
 interface SkinListProps {
@@ -33,34 +33,29 @@ export function SkinList({ filters }: SkinListProps) {
 
         let filtered = data;
 
-        // 🔹 Filtro por nome
         if (filters.name) {
           filtered = filtered.filter((item) =>
             item.name.toLowerCase().includes(filters.name.toLowerCase())
           );
         }
 
-        // 🔹 Filtro por tipo
         if (filters.type) {
           filtered = filtered.filter((item) => item.type === filters.type);
         }
 
-        // 🔹 Filtro por raridade
         if (filters.rarity) {
           filtered = filtered.filter((item) => item.rarity === filters.rarity);
         }
 
-        // 🔹 Filtro por data
         if (filters.startDate && filters.endDate) {
           const start = new Date(filters.startDate);
           const end = new Date(filters.endDate);
           filtered = filtered.filter((item) => {
-            const date = new Date(item.addedAt);
+            const date = new Date(item.added);
             return date >= start && date <= end;
           });
         }
 
-        // 🔹 Filtros booleanos
         if (filters.onlyNew) filtered = filtered.filter((i) => i.isNew);
         if (filters.onlyOnSale) filtered = filtered.filter((i) => i.isOnSale);
         if (filters.onlyForSale)
