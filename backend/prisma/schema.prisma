@@ -32,6 +32,7 @@ model Cosmetic {
   rarity     String?
   imageUrl   String?
   price      Int     @default(0)
+  addedAt    DateTime 
 
   isNew      Boolean @default(false)
   isOnSale   Boolean @default(false)
