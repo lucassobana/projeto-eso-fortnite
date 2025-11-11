@@ -28,7 +28,6 @@ services:
       FORTNITE_API_KEY: ${FORTNITE_API_KEY}
     depends_on:
       - db
-    # Garante que o app só suba quando o DB estiver pronto
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -h db -U postgres"]
       interval: 5s

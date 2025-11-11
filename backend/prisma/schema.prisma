@@ -15,52 +15,52 @@ datasource db {
 }
 
 model User {
-  id           String    @id @default(uuid())
-  email        String    @unique
-  passwordHash String    
-  vbucks       Int       @default(10000)
-  
+  id           String @id @default(uuid())
+  email        String @unique
+  passwordHash String
+  vbucks       Int    @default(10000)
+
   inventory    UserInventory[]
   transactions TransactionHistory[]
 }
 
 model Cosmetic {
-  id         String  @id 
-  name       String
+  id          String   @id
+  name        String
   description String?
-  type       String?
-  rarity     String?
-  imageUrl   String?
-  price      Int     @default(0)
-  addedAt    DateTime 
+  type        String?
+  rarity      String?
+  imageUrl    String?
+  price       Int      @default(0)
+  added       DateTime
 
-  isNew      Boolean @default(false)
-  isOnSale   Boolean @default(false)
+  isNew    Boolean @default(false)
+  isOnSale Boolean @default(false)
 
-  owners     UserInventory[]
+  owners UserInventory[]
 }
 
 model UserInventory {
-  id           String   @id @default(uuid())
-  acquiredAt   DateTime @default(now())
-  
-  userId       String
-  user         User     @relation(fields: [userId], references: [id])
-  
-  cosmeticId   String
-  cosmetic     Cosmetic @relation(fields: [cosmeticId], references: [id])
+  id         String   @id @default(uuid())
+  acquiredAt DateTime @default(now())
 
-  @@unique([userId, cosmeticId]) 
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  cosmeticId String
+  cosmetic   Cosmetic @relation(fields: [cosmeticId], references: [id])
+
+  @@unique([userId, cosmeticId])
 }
 
 model TransactionHistory {
   id           String   @id @default(uuid())
-  type         String   
-  amountVbucks Int      
+  type         String
+  amountVbucks Int
   createdAt    DateTime @default(now())
 
-  userId       String
-  user         User     @relation(fields: [userId], references: [id])
-  
-  cosmeticId   String
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  cosmeticId String
 }
