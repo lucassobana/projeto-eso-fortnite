@@ -1,0 +1,103 @@
+.header {
+    font-weight: 800;
+    background-color: var(--color-light-blue);
+
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    height: 56px;
+    position: relative;
+    padding: 0rem 1rem;
+    border-radius: 100px;
+
+    margin: 32px 49px 0px 49px;
+}
+
+.text {
+    color: white;
+    padding-left: 10px;
+}
+
+.vbucks {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: absolute;
+    right: 1rem;
+}
+
+.value {
+    color: white;
+    font-weight: 700;
+}
+
+.userMenuContainer {
+    position: relative;
+}
+
+.userImage {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.dropdownMenu {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background: #09121c;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    padding: 0.5rem 0;
+    z-index: 100;
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+    transition: opcacity 0.25s ease, transform 0.25s ease;
+}
+
+.dropdownMenu.open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.dropdownMenu.closed {
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+}
+
+.dropdownMenu button {
+    background: none;
+    border: none;
+    color: #fff;
+    text-align: left;
+    padding: 10px 20px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dropdownMenu button:hover {
+    background: #162235;
+    border-radius: 10px;
+}
+
+.dropdownMenu button.logout {
+    color: #ff4d4d !important;
+}
+
+.dropdownMenu button.logout:hover {
+    background: #331414;
+}
+
+.icon {
+    font-size: 18px;
+}
