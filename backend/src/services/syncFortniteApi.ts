@@ -31,7 +31,7 @@ interface ApiCosmetic {
     icon: string | null;
   } | null;
   price?: number;
-  addedAt: Date;
+  added: string;
 }
 
 export async function syncFortniteApi() {
@@ -92,6 +92,7 @@ export async function syncFortniteApi() {
       const isNew = newCosmeticIds.has(cosmetic.id);
       const isOnSale = shopCosmeticsMap.has(cosmetic.id);
       const price = shopCosmeticsMap.get(cosmetic.id) || 0;
+      const addedDate = new Date(cosmetic.added!)
 
       const dataForDb = {
         id: cosmetic.id,
@@ -103,7 +104,7 @@ export async function syncFortniteApi() {
         price,
         isNew,
         isOnSale,
-        addedAt: new Date(),
+        added: new Date(cosmetic.added)
       };
 
       return prisma.cosmetic.upsert({
