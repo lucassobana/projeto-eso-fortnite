@@ -57,15 +57,17 @@ export function Header({ userData, onLogout }: HeaderProps) {
           >
             {userData ? (
               <>
-                <button onClick={() => navigate("/meus-itens")}>
+                <button onClick={() => navigate("/my-itens")}>
                   <Icon icon="mdi:bag-personal" className={styles.icon} />
                   Meus itens
                 </button>
 
-                <button onClick={() => navigate("/historico")}>
+                {/* 🔽 ADICIONE ESTE BOTÃO 🔽 */}
+                <button onClick={() => navigate("/history")}>
                   <Icon icon="mdi:history" className={styles.icon} />
                   Histórico de compras
                 </button>
+                {/* 🔼 FIM DO NOVO BOTÃO 🔼 */}
 
                 <button className={styles.logout} onClick={onLogout}>
                   <Icon icon="mdi:logout" className={styles.icon} />

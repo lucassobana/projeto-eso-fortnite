@@ -20,7 +20,6 @@ export interface FilterValues {
   onlyNew: boolean;
   onlyForSale: boolean;
   onlyOnSale: boolean;
-  myItems: boolean;
 }
 
 interface FilterPanelProps {
@@ -50,7 +49,6 @@ export function FilterPanel({ onApplyFilters }: FilterPanelProps) {
     onlyNew: false,
     onlyForSale: false,
     onlyOnSale: false,
-    myItems: false,
   });
 
   // 🔹 Busca dados do backend e extrai filtros dinamicamente
@@ -229,16 +227,6 @@ export function FilterPanel({ onApplyFilters }: FilterPanelProps) {
               onChange={handleChange}
             />
             Apenas em promoção
-          </label>
-
-          <label>
-            <input
-              type="checkbox"
-              name="myItems"
-              checked={filters.myItems}
-              onChange={handleChange}
-            />
-            Meus itens
           </label>
         </div>
       </div>
