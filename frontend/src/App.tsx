@@ -71,6 +71,30 @@ export function App() {
     fetchItems();
   }, []);
 
+  useEffect(() => {
+    async function fetchInventory() {
+      if (userData) {
+        try {
+          const res = await fetch(`http://localhost:4000/api/user/inventory/${userData.id}`);
+          if (!res.ok) {
+            throw new Error('Erro ao buscar inventário do usuário');
+          }
+          const inventoryItems: Item[] = await res.json();
+          const ids = inventoryItems.map(item => item.id);
+          setOwnedSkinIds(ids);
+
+        } catch (error) {
+          console.error("Erro ao buscar inventário:", error);
+          setOwnedSkinIds([]);
+        }
+      } else {
+        setOwnedSkinIds([]);
+      }
+    }
+
+    fetchInventory();
+  }, [userData]);
+
   const handleOpenModal = (item: Item, isOwned: boolean) => {
     const skinForModal: Skin = {
       id: item.id,
@@ -89,31 +113,91 @@ export function App() {
     setSelectedSkin(null);
   };
 
-  const handlePurchase = (skinToBuy: Skin) => {
-    if (userData && userData.vbucks >= skinToBuy.price) {
-      const newVBucks = userData.vbucks - skinToBuy.price;
-      const newUserData: UserData = {
-        ...userData,
-        vbucks: newVBucks,
-      };
-      setUserData(newUserData);
-      localStorage.setItem("user", JSON.stringify(newUserData));
+  const handlePurchase = async (skinToBuy: Skin) => {
+    // 1. Verifica se o usuário está logado
+    if (!userData) {
+      alert("Você precisa estar logado para realizar uma compra.");
+      navigate("/login"); // Redireciona para o login
+      return;
+    }
+
+    // 2. Tenta realizar a chamada de API
+    try {
+      const response = await fetch("http://localhost:4000/api/user/buy", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: userData.id,
+          cosmeticId: skinToBuy.id,
+        }),
+      });
+
+      const data = await response.json();
+
+      // 3. Trata a resposta
+      if (!response.ok) {
+        // Exibe o erro específico vindo do backend (ex: "V-Bucks insuficientes.")
+        throw new Error(data.error || "Erro ao processar a compra.");
+      }
+
+      // 4. Sucesso! Atualiza o estado do frontend
+
+      // Atualiza os dados do usuário (principalmente V-Bucks)
+      const updatedUserData = data.user;
+      setUserData(updatedUserData);
+      localStorage.setItem("user", JSON.stringify(updatedUserData));
+
+      // Adiciona o item à lista de itens possuídos
       setOwnedSkinIds((ids) => [...ids, skinToBuy.id]);
+
+      // Fecha o modal
       handleCloseModal();
+
+    } catch (error) {
+      console.error("Erro na compra:", error);
     }
   };
 
-  const handleRefund = (skinToRefund: Skin) => {
-    if (userData) {
-      const newVBucks = userData.vbucks + skinToRefund.price;
-      const newUserData: UserData = {
-        ...userData,
-        vbucks: newVBucks,
-      };
-      setUserData(newUserData);
-      localStorage.setItem("user", JSON.stringify(newUserData));
+  const handleRefund = async (skinToRefund: Skin) => {
+    if (!userData) {
+      alert("Você precisa estar logado para realizar uma compra.");
+      navigate("/login"); 
+      return;
+    }
+    
+    try {
+      const response = await fetch("http://localhost:4000/api/user/refund", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: userData.id,
+          cosmeticId: skinToRefund.id,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        // Exibe o erro do backend (ex: "Você não possui este item...")
+        throw new Error(data.error || "Erro ao processar o reembolso.");
+      }
+
+      // Sucesso! Atualiza o estado do frontend
+      const updatedUserData = data.user;
+      setUserData(updatedUserData);
+      localStorage.setItem("user", JSON.stringify(updatedUserData));
+
+      // Remove o item da lista local de itens possuídos
       setOwnedSkinIds((ids) => ids.filter((id) => id !== skinToRefund.id));
+
       handleCloseModal();
+
+    } catch (error) {
+      console.error("Erro no reembolso:", error);
     }
   };
 
@@ -140,7 +224,6 @@ export function App() {
       const matchOnlyNew = !filters.onlyNew || item.isNew;
       const matchOnlyOnSale = !filters.onlyOnSale || item.isOnSale;
       const matchOnlyForSale = !filters.onlyForSale || item.price > 0;
-      const matchMyItems = !filters.myItems || ownedSkinIds.includes(item.id);
 
       return (
         matchName &&
@@ -149,8 +232,7 @@ export function App() {
         matchDate &&
         matchOnlyNew &&
         matchOnlyOnSale &&
-        matchOnlyForSale &&
-        matchMyItems
+        matchOnlyForSale
       );
     });
 

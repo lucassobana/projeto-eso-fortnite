@@ -77,6 +77,79 @@ router.post('/buy', async (req, res) => {
     }
 });
 
+router.post('/refund', async (req, res) => {
+    const { userId, cosmeticId } = req.body;
+
+    if (!userId || !cosmeticId) {
+        return res.status(400).json({ error: 'userId e cosmeticId são obrigatórios.' });
+    }
+
+    try {
+        const result = await prisma.$transaction(async (tx) => {
+            const cosmetic = await tx.cosmetic.findUnique({
+                where: { id: cosmeticId },
+            });
+
+            if (!cosmetic) {
+                throw new Error('Cosmético não encontrado.');
+            }
+
+            const user = await tx.user.findUnique({
+                where: { id: userId },
+            });
+
+            if (!user) {
+                throw new Error('Usuário não encontrado.');
+            }
+
+            const inventoryItem = await tx.userInventory.findUnique({
+                where: {
+                    userId_cosmeticId: { userId: userId, cosmeticId: cosmeticId }
+                },
+            });
+
+            if (!inventoryItem) {
+                throw new Error('Você não possui este item para reembolsar.');
+            }
+
+            await tx.userInventory.delete({
+                where: {
+                    userId_cosmeticId: { userId: userId, cosmeticId: cosmeticId }
+                },
+            });
+
+            const updatedUser = await tx.user.update({
+                where: { id: userId },
+                data: { vbucks: user.vbucks + cosmetic.price },
+            });
+
+            await tx.transactionHistory.create({
+                data: {
+                    userId: userId,
+                    cosmeticId: cosmeticId,
+                    type: 'REEMBOLSO',
+                    amountVbucks: cosmetic.price,
+                },
+            });
+
+            return updatedUser;
+        });
+
+        res.status(200).json({
+            message: 'Reembolso realizado com sucesso!',
+            user: {
+                id: result.id,
+                email: result.email,
+                vbucks: result.vbucks,
+            },
+        });
+
+    } catch (error: any) {
+        console.error('Erro na transação de reembolso:', error.message);
+        res.status(400).json({ error: error.message || 'Erro interno ao processar o reembolso.' });
+    }
+});
+
 router.get('/inventory/:userId', async (req, res) => {
     const { userId } = req.params;
 
@@ -84,7 +157,7 @@ router.get('/inventory/:userId', async (req, res) => {
         const inventory = await prisma.userInventory.findMany({
             where: { userId: userId },
             include: {
-                cosmetic: true, 
+                cosmetic: true,
             },
         });
 
@@ -104,6 +177,14 @@ router.get('/history/:userId', async (req, res) => {
         const history = await prisma.transactionHistory.findMany({
             where: { userId: userId },
             orderBy: { createdAt: 'desc' },
+            include: {
+                cosmetic: true,
+                user: {
+                    select: { 
+                        email: true
+                    }
+                }
+            }
         });
         res.json(history);
     } catch (error) {

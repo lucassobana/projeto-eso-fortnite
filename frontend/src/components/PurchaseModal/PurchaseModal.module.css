@@ -1,5 +1,3 @@
-/* Salve este arquivo como PurchaseModal.module.css */
-
 .modalOverlay {
   position: fixed;
   top: 0;
@@ -57,10 +55,10 @@
   color: white;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
-.star { /* Classe auxiliar para o ícone */
+.star {
   background-color: #fdd835;
 }
-.diamond { /* Classe auxiliar para o ícone */
+.diamond {
   background-color: #03a9f4;
   top: 80px;
 }
@@ -94,7 +92,6 @@
 .skinDescription {
   font-size: 1rem;
   color: #b0bec5;
-  /* margin-bottom: 20px; */
   line-height: 1.4;
 }
 
@@ -111,17 +108,13 @@
 }
 
 .vbucksIcon {
-  background-color: #03a9f4;
   border-radius: 50%;
   width: 30px;
   height: 30px;
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  font-weight: bold;
-  color: #fff;
   margin-right: 10px;
-  font-family: sans-serif;
 }
 
 .priceAmount {
@@ -147,17 +140,14 @@
   opacity: 0.9;
 }
 
-.buyButton { /* Classe auxiliar para o botão */
+.buyButton {
   background-color: #8bc34a;
 }
 
-.refundButton { /* Classe auxiliar para o botão */
+.refundButton {
   background-color: #e53935;
 }
 
-/* O seletor :disabled é aplicado automaticamente
-  quando o botão tem o atributo "disabled"
-*/
 .buyButton:disabled {
   background-color: #555;
   color: #999;

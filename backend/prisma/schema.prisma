@@ -38,6 +38,8 @@ model Cosmetic {
   isOnSale Boolean @default(false)
 
   owners UserInventory[]
+
+  transactions TransactionHistory[]
 }
 
 model UserInventory {
@@ -63,4 +65,5 @@ model TransactionHistory {
   user   User   @relation(fields: [userId], references: [id])
 
   cosmeticId String
+  cosmetic   Cosmetic @relation(fields: [cosmeticId], references: [id])
 }
