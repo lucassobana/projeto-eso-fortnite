@@ -51,7 +51,6 @@ export function FilterPanel({ onApplyFilters }: FilterPanelProps) {
     onlyOnSale: false,
   });
 
-  // 🔹 Busca dados do backend e extrai filtros dinamicamente
   useEffect(() => {
     async function fetchFilters() {
       try {
@@ -63,7 +62,6 @@ export function FilterPanel({ onApplyFilters }: FilterPanelProps) {
           return;
         }
 
-        // Extrai tipos e raridades únicos
         const uniqueTypes: FilterOption[] = Array.from(
           new Set(data.map((item) => item.type).filter(Boolean))
         ).map((t) => ({ id: t, name: t }));
@@ -72,7 +70,6 @@ export function FilterPanel({ onApplyFilters }: FilterPanelProps) {
           new Set(data.map((item) => item.rarity).filter(Boolean))
         ).map((r) => ({ id: r, name: r }));
 
-        // Define o intervalo de datas automaticamente
         const dates = data
           .map((item) => new Date(item.added).getTime())
           .filter((d) => !isNaN(d));
@@ -100,7 +97,6 @@ export function FilterPanel({ onApplyFilters }: FilterPanelProps) {
     fetchFilters();
   }, []);
 
-  // 🔹 Atualiza filtros
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) {
@@ -116,7 +112,6 @@ export function FilterPanel({ onApplyFilters }: FilterPanelProps) {
     }));
   }
 
-  // 🔹 Envia filtros ao pai
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     onApplyFilters(filters);

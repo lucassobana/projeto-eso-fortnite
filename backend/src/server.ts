@@ -6,6 +6,7 @@ import { cosmeticRoutes } from './routes/cosmeticRoutes.js';
 import { syncFortniteApi } from './services/syncFortniteApi.js';
 import { auth } from './routes/auth.js';
 import { inventoryRoutes } from './routes/inventoryRoutes.js';
+import { usersRoutes } from './routes/userRoutes.js';
 
 async function startServer() {
   const app = express();
@@ -14,7 +15,7 @@ async function startServer() {
   app.use(cors());
   app.use(express.json());
 
-  app.use('/api', cosmeticRoutes);
+  app.use('/api', cosmeticRoutes, usersRoutes);
   app.use('/api/auth', auth);
   app.use('/api/user', inventoryRoutes);
 
