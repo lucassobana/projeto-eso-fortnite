@@ -59,7 +59,7 @@ export function App() {
         setItems(data);
         setFilteredItems(data);
         if (data.length > 1) {
-          setOwnedSkinIds([data[1].id]); // Simulação
+          setOwnedSkinIds([data[1].id]);
         }
       } catch (error) {
         console.error("Erro ao buscar itens:", error);
@@ -114,14 +114,12 @@ export function App() {
   };
 
   const handlePurchase = async (skinToBuy: Skin) => {
-    // 1. Verifica se o usuário está logado
     if (!userData) {
       alert("Você precisa estar logado para realizar uma compra.");
-      navigate("/login"); // Redireciona para o login
+      navigate("/login");
       return;
     }
 
-    // 2. Tenta realizar a chamada de API
     try {
       const response = await fetch("http://localhost:4000/api/user/buy", {
         method: "POST",
@@ -136,23 +134,16 @@ export function App() {
 
       const data = await response.json();
 
-      // 3. Trata a resposta
       if (!response.ok) {
-        // Exibe o erro específico vindo do backend (ex: "V-Bucks insuficientes.")
         throw new Error(data.error || "Erro ao processar a compra.");
       }
 
-      // 4. Sucesso! Atualiza o estado do frontend
-
-      // Atualiza os dados do usuário (principalmente V-Bucks)
       const updatedUserData = data.user;
       setUserData(updatedUserData);
       localStorage.setItem("user", JSON.stringify(updatedUserData));
 
-      // Adiciona o item à lista de itens possuídos
       setOwnedSkinIds((ids) => [...ids, skinToBuy.id]);
 
-      // Fecha o modal
       handleCloseModal();
 
     } catch (error) {
@@ -182,16 +173,13 @@ export function App() {
       const data = await response.json();
 
       if (!response.ok) {
-        // Exibe o erro do backend (ex: "Você não possui este item...")
         throw new Error(data.error || "Erro ao processar o reembolso.");
       }
 
-      // Sucesso! Atualiza o estado do frontend
       const updatedUserData = data.user;
       setUserData(updatedUserData);
       localStorage.setItem("user", JSON.stringify(updatedUserData));
 
-      // Remove o item da lista local de itens possuídos
       setOwnedSkinIds((ids) => ids.filter((id) => id !== skinToRefund.id));
 
       handleCloseModal();

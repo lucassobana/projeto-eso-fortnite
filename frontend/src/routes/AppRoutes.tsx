@@ -4,6 +4,8 @@ import { App } from "../App";
 import { Register } from "../pages/register/Register";
 import { MyItems } from "../pages/itens/MyItens";
 import { History } from "../pages/history/History";
+import { UserList } from "../pages/users/UserList";
+import { UserProfile } from "../pages/user-profile/UserProfile";
 
 export function AppRoutes() {
   return (
@@ -14,6 +16,8 @@ export function AppRoutes() {
         <Route path="/register" element={<Register />} />
         <Route path="/my-itens" element={<MyItems />} />
         <Route path="/history" element={<History />} />
+        <Route path="/users" element={<UserList />} />
+        <Route path="/users/:userId" element={<UserProfile />} />
       </Routes>
     </Router>
   );
