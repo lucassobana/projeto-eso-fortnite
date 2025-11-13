@@ -58,7 +58,6 @@ export function MyItems() {
         const data: Item[] = await res.json();
         setInventory(data);
       } catch (err) {
-        // Correção para o erro 'unknown'
         if (err instanceof Error) {
           setError(err.message);
         } else {
