@@ -20,7 +20,7 @@ async function startServer() {
     origin: [
       'http://localhost:5173',
       'http://localhost:3000',
-      //! 'https://seu-site-no-vercel.app' URL VERCEL
+      'https://projeto-eso-fortnite.vercel.app/'
     ],
     methods: ['GET', 'POST']
   }));
