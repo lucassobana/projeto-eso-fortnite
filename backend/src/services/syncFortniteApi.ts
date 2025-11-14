@@ -50,8 +50,8 @@ export async function syncFortniteApi() {
 
     const newCosmeticsData = newCosmeticsResponse.data.data;
     const newCosmeticsArray = (newCosmeticsData && newCosmeticsData.items && Array.isArray(newCosmeticsData.items.br))
-      ? newCosmeticsData.items.br
-      : [];
+        ? newCosmeticsData.items.br
+        : [];
 
     const newCosmeticIds = new Set(newCosmeticsArray.map((c: ApiCosmetic) => c.id));
 
