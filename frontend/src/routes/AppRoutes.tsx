@@ -16,8 +16,8 @@ export function AppRoutes() {
         <Route path="/register" element={<Register />} />
         <Route path="/my-itens" element={<MyItems />} />
         <Route path="/history" element={<History />} />
-        <Route path="/users" element={<UserList />} />
-        <Route path="/users/:userId" element={<UserProfile />} />
+        <Route path="/all-users" element={<UserList />} />
+        <Route path="/all-users/:userId" element={<UserProfile />} />
       </Routes>
     </Router>
   );
