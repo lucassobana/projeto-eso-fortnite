@@ -54,7 +54,7 @@ export function FilterPanel({ onApplyFilters }: FilterPanelProps) {
   useEffect(() => {
     async function fetchFilters() {
       try {
-        const res = await fetch("${import.meta.env.VITE_API_URL}/api/cosmetics");
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/cosmetics`);
         const data: BackendItem[] = await res.json();
 
         if (!Array.isArray(data)) {

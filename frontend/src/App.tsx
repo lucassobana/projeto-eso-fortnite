@@ -54,7 +54,7 @@ export function App() {
 
     async function fetchItems() {
       try {
-        const res = await fetch("${import.meta.env.VITE_API_URL}/api/cosmetics");
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/cosmetics`);
         const data = await res.json();
         setItems(data);
         setFilteredItems(data);
@@ -121,7 +121,7 @@ export function App() {
     }
 
     try {
-      const response = await fetch("${import.meta.env.VITE_API_URL}/api/user/buy", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/user/buy`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -159,7 +159,7 @@ export function App() {
     }
     
     try {
-      const response = await fetch("${import.meta.env.VITE_API_URL}/api/user/refund", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/user/refund`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

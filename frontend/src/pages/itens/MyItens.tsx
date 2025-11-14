@@ -98,7 +98,7 @@ export function MyItems() {
     }
 
     try {
-      const response = await fetch("${import.meta.env.VITE_API_URL}/api/user/refund", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/user/refund`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
