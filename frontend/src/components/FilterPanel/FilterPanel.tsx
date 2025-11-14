@@ -121,7 +121,6 @@ export function FilterPanel({ onApplyFilters }: FilterPanelProps) {
     <form className={styles.filterPanel} onSubmit={handleSubmit}>
       <h2 className={styles.filterTitle}>Filtros</h2>
 
-      {/* Nome */}
       <div className={styles.filterGroup}>
         <label htmlFor="name">Nome</label>
         <input
@@ -134,7 +133,6 @@ export function FilterPanel({ onApplyFilters }: FilterPanelProps) {
         />
       </div>
 
-      {/* Tipo */}
       <div className={styles.filterGroup}>
         <label htmlFor="type">Tipo</label>
         <select
@@ -152,7 +150,6 @@ export function FilterPanel({ onApplyFilters }: FilterPanelProps) {
         </select>
       </div>
 
-      {/* Raridade */}
       <div className={styles.filterGroup}>
         <label htmlFor="rarity">Raridade</label>
         <select
@@ -170,7 +167,6 @@ export function FilterPanel({ onApplyFilters }: FilterPanelProps) {
         </select>
       </div>
 
-      {/* Datas */}
       <div className={styles.filterGroup}>
         <label>Data de inclusão:</label>
         <div className={styles.dateRange}>
@@ -190,39 +186,43 @@ export function FilterPanel({ onApplyFilters }: FilterPanelProps) {
         </div>
       </div>
 
-      {/* Opções */}
       <div className={styles.filterGroup}>
         <label>Opções</label>
         <div className={styles.checkboxGroup}>
-          <label>
+
+          <label className={styles.checkboxLabel}>
             <input
               type="checkbox"
               name="onlyNew"
               checked={filters.onlyNew}
               onChange={handleChange}
             />
-            Apenas novos
+            <span className={styles.customCheckbox}></span>
+            <span className={styles.checkboxText}>Apenas novos</span>
           </label>
 
-          <label>
+          <label className={styles.checkboxLabel}>
             <input
               type="checkbox"
               name="onlyForSale"
               checked={filters.onlyForSale}
               onChange={handleChange}
             />
-            Apenas à venda
+            <span className={styles.customCheckbox}></span>
+            <span className={styles.checkboxText}>Apenas à venda</span>
           </label>
 
-          <label>
+          <label className={styles.checkboxLabel}>
             <input
               type="checkbox"
               name="onlyOnSale"
               checked={filters.onlyOnSale}
               onChange={handleChange}
             />
-            Apenas em promoção
+            <span className={styles.customCheckbox}></span>
+            <span className={styles.checkboxText}>Apenas em promoção</span>
           </label>
+
         </div>
       </div>
 

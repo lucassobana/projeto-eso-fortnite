@@ -36,7 +36,7 @@ export function MyItems() {
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-    
+
     if (!storedUser) {
       navigate("/login");
       return;
@@ -50,11 +50,11 @@ export function MyItems() {
       setError("");
       try {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user/inventory/${userId}`);
-        
+
         if (!res.ok) {
           throw new Error("Falha ao carregar o inventário.");
         }
-        
+
         const data: Item[] = await res.json();
         setInventory(data);
       } catch (err) {
@@ -81,7 +81,7 @@ export function MyItems() {
     const skinForModal: Skin = {
       ...item,
       image: item.imageUrl,
-      isPurchased: true, 
+      isPurchased: true,
     };
     setSelectedSkin(skinForModal);
   };
@@ -122,8 +122,8 @@ export function MyItems() {
       setInventory((prevInventory) =>
         prevInventory.filter((item) => item.id !== skinToRefund.id)
       );
-      
-      handleCloseModal(); 
+
+      handleCloseModal();
 
     } catch (err) {
       console.error("Erro no reembolso:", err);
@@ -156,7 +156,7 @@ export function MyItems() {
             key={item.id}
             name={item.name}
             rarity={item.rarity}
-            price={item.price} 
+            price={item.price}
             imageUrl={item.imageUrl}
             isNew={item.isNew}
             isOnSale={item.isOnSale}
@@ -176,7 +176,7 @@ export function MyItems() {
           &larr; Voltar para a Loja
         </Link>
         <h1 className={styles.title}>Meus Itens</h1>
-        
+
         {renderContent()}
       </main>
 
@@ -185,7 +185,7 @@ export function MyItems() {
         onClose={handleCloseModal}
         skin={selectedSkin}
         userVBucks={userData ? userData.vbucks : 0}
-        onPurchase={() => {}}
+        onPurchase={() => { }}
         onRefund={handleRefund}
       />
     </>

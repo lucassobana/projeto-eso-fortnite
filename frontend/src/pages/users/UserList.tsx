@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Header } from '../../components/Header/Header';
-import { Pagination } from '../../components/Pagination/Pagination'; 
+import { Pagination } from '../../components/Pagination/Pagination';
 import styles from './UserList.module.css';
 
 interface UserData {
@@ -124,9 +124,9 @@ export function UserList() {
           &larr; Voltar para a Loja
         </Link>
         <h1 className={styles.title}>Usuários Cadastrados</h1>
-        
+
         {renderList()}
-        
+
         {!loading && !error && totalPages > 1 && (
           <Pagination
             currentPage={currentPage}

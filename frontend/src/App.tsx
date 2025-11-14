@@ -58,9 +58,6 @@ export function App() {
         const data = await res.json();
         setItems(data);
         setFilteredItems(data);
-        if (data.length > 1) {
-          setOwnedSkinIds([data[1].id]);
-        }
       } catch (error) {
         console.error("Erro ao buscar itens:", error);
       } finally {
