@@ -10,7 +10,8 @@ import { usersRoutes } from './routes/userRoutes.js';
 
 async function startServer() {
   const app = express();
-  const port = process.env.PORT || 4000;
+  const port = parseInt(process.env.PORT || "4000", 10);
+  const HOST = '0.0.0.0';
 
   app.use(cors());
   app.use(express.json());
@@ -29,9 +30,16 @@ async function startServer() {
     console.log('Sincronização agendada concluída.');
   });
 
-  app.listen(port, () => {
-    console.log(`🚀 Servidor backend rodando em http://localhost:${port}`);
+  app.listen(port, HOST, () => {
+    console.log(`🚀 Servidor backend rodando em http://${HOST}:${port}`);
     console.log(`Sincronização automática agendada para cada 4 horas.`);
+
+    console.log('Disparando sincronização inicial em background...');
+    syncFortniteApi().then(() => {
+      console.log('Sincronização inicial em background concluída.');
+    }).catch(err => {
+      console.error('Erro na sincronização inicial em background:', err);
+    });
   });
 }
 
