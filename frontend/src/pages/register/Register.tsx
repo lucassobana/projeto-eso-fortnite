@@ -27,7 +27,7 @@ export function Register() {
         }
 
         try {
-            const response = await axios.post("http://localhost:4000/api/auth/register", {
+            const response = await axios.post("http://projeto-eso-fortnite-production.up.railway.app/api/auth/register", {
                 email: form.email,
                 password: form.password,
             });
