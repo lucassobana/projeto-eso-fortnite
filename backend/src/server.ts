@@ -1,5 +1,3 @@
-// Em: backend/src/server.ts
-
 import express from 'express';
 import cors from 'cors';
 import cron from 'node-cron';
@@ -20,9 +18,9 @@ async function startServer() {
     origin: [
       'http://localhost:5173',
       'http://localhost:3000',
-      'https://projeto-eso-fortnite.vercel.app/'
+      'https://projeto-eso-fortnite.vercel.app'
     ],
-    methods: ['GET', 'POST']
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
   }));
 
   app.use('/api', cosmeticRoutes, usersRoutes);
