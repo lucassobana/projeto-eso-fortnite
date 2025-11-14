@@ -88,3 +88,22 @@
   text-decoration: underline;
   color: #ff4081;
 }
+
+@media (max-width: 576px) {
+  .tableContainer {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tableContainer table {
+    min-width: 600px;
+  }
+
+  .container {
+    padding: 0 1rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+}

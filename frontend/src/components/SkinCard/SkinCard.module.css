@@ -1,12 +1,12 @@
 .card {
   position: relative;
   width: 200px;
-  /* background: linear-gradient(180deg, #0e1a2a, #101b2d); */
   background: linear-gradient(180deg, #000, #101b2d);
   border-radius: 1rem;
   overflow: hidden;
-  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); */
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+  display: flex;
+  flex-direction: column;
 }
 
 .card:hover {
@@ -16,16 +16,18 @@
 
 .imageContainer {
   position: relative;
+  width: 100%;
   height: 250px;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .noImage {
@@ -57,10 +59,11 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
+  flex-grow: 1;
 }
 
 .rarity {
-  color: #8FD4FF;
+  color: #8fd4ff;
   background-color: #002139;
   width: fit-content;
   padding: 1px 14px 1px 14px;
@@ -74,12 +77,16 @@
   font-size: 16px;
   font-weight: bold;
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: auto;
 }
 
 .price {
@@ -93,4 +100,10 @@
   padding: 2px 6px;
   font-size: 12px;
   border-radius: 6px;
+}
+
+@media (max-width: 1600px) {
+  .imageContainer {
+    height: 130px;
+  }
 }

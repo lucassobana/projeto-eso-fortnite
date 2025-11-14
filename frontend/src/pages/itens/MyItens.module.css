@@ -1,5 +1,6 @@
 .container {
-    max-width: 1600px;
+    width: 100%;
+    max-width: 1200px;
     margin: 2rem auto;
     padding: 0 2rem;
     color: #fff;
@@ -23,7 +24,6 @@
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 2rem;
-    border-bottom: 2px solid #e91e63;
     padding-bottom: 0.5rem;
     display: inline-block;
 }
@@ -40,4 +40,23 @@
     grid-template-columns: repeat(6, 1fr);
     gap: 1.5rem;
     justify-items: center;
+}
+
+@media (min-width: 946) and (max-width: 1536px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 945px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  .container {
+    padding: 0 1rem;
+  }
+  .title {
+    font-size: 2rem;
+  }
 }

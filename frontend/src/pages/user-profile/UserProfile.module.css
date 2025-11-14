@@ -43,20 +43,27 @@
   justify-items: center;
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 1201px) {
   .grid {
     grid-template-columns: repeat(6, 1fr);
   }
 }
 
-@media (max-width: 1279px) and (min-width: 768px) {
+@media (min-width: 946px) and (max-width: 1536px) {
   .grid {
     grid-template-columns: repeat(4, 1fr);
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 945px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  .container {
+    padding: 0 1rem;
+  }
+  .title {
+    font-size: 2rem;
   }
 }

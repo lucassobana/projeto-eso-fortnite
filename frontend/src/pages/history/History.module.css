@@ -1,162 +1,150 @@
-/* Estilo global da página */
 .container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 2rem auto;
-    padding: 0 2rem;
-    color: #fff;
+  width: 100%;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+  color: #fff;
 }
 
 .backLink {
-    color: #e91e63;
-    text-decoration: none;
-    font-size: 1rem;
-    font-weight: 500;
-    margin-bottom: 1rem;
-    display: flex;
-    transition: color 0.2s;
+  color: #e91e63;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  display: flex;
+  transition: color 0.2s;
 }
 
 .backLink:hover {
-    color: #ff4081;
+  color: #ff4081;
 }
 
 .title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 2rem;
-    padding-bottom: 0.5rem;
-    display: inline-block;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  padding-bottom: 0.5rem;
+  display: inline-block;
 }
 
-/* Container da lista com scroll personalizado */
 .listContainer {
-    max-height: 70vh;
-    /* Altura máxima para ativar o scroll */
-    overflow-y: auto;
-    padding-right: 15px;
-    /* Espaço para o scrollbar */
+  max-height: 70vh;
+  overflow-y: auto;
+  padding-right: 15px;
 }
 
-/* Scrollbar Webkit (Chrome, Safari) */
 .listContainer::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
 }
 
 .listContainer::-webkit-scrollbar-track {
-    background: #1e1e2f;
-    /* Cor da trilha (fundo da barra) */
-    border-radius: 4px;
+  background: #1e1e2f;
+  border-radius: 4px;
 }
 
 .listContainer::-webkit-scrollbar-thumb {
-    background-color: #e91e63;
-    /* Cor do "polegar" (a barra que se move) */
-    border-radius: 4px;
+  background-color: #e91e63;
+  border-radius: 4px;
 }
 
 .listContainer::-webkit-scrollbar-thumb:hover {
-    background-color: #ff4081;
+  background-color: #ff4081;
 }
 
-/* Mensagens de Loading / Erro / Vazio */
 .message {
-    color: #ccc;
-    text-align: center;
-    font-size: 1.2rem;
-    padding: 4rem 0;
+  color: #ccc;
+  text-align: center;
+  font-size: 1.2rem;
+  padding: 4rem 0;
 }
 
-/* Card de cada transação */
 .transactionItem {
-    display: flex;
-    gap: 1.5rem;
-    padding: 1.5rem 0;
-    border-bottom: 1px solid #3a3a5a;
-    /* Linha separadora */
+  display: flex;
+  gap: 1.5rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid #3a3a5a;
 }
 
 .itemImage {
-    width: 100px;
-    height: 100px;
-    border-radius: 8px;
-    background-color: #0b192c;
-    /* Fundo para a imagem */
-    object-fit: cover;
-    flex-shrink: 0;
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  background-color: #0b192c;
+  object-fit: cover;
+  flex-shrink: 0;
 }
 
 .itemContent {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .itemTitle {
-    font-size: 1.75rem;
-    font-weight: 600;
-    margin: 0 0 1rem 0;
-    color: #fff;
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  color: #fff;
 }
 
-/* Grid de detalhes da transação */
 .detailsGrid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    /* 4 colunas */
-    gap: 1rem;
-    width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  width: 100%;
 }
 
 .detailItem {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .detailLabel {
-    font-size: 0.875rem;
-    color: #aaa;
-    margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+  color: #aaa;
+  margin-bottom: 0.25rem;
 }
 
 .detailValue {
-    font-size: 1rem;
-    font-weight: 500;
-    color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
 }
 
-/* Cores especiais para Valor */
 .valueCompra {
-    color: #ff4d4d;
-    /* Vermelho para compra */
-    font-weight: 700;
+  color: #ff4d4d;
+  font-weight: 700;
 }
 
 .valueReembolso {
-    color: #4dff4d;
-    /* Verde para reembolso */
-    font-weight: 700;
+  color: #4dff4d;
+  font-weight: 700;
 }
 
-/* Responsividade para o grid */
 @media (max-width: 900px) {
-    .detailsGrid {
-        grid-template-columns: repeat(2, 1fr);
-        /* 2 colunas em telas médias */
-    }
+  .detailsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-@media (max-width: 500px) {
-    .transactionItem {
-        flex-direction: column;
-    }
+@media (max-width: 576px) {
+  .transactionItem {
+    flex-direction: column;
+  }
 
-    .detailsGrid {
-        grid-template-columns: repeat(2, 1fr);
-        /* 2 colunas em telas pequenas */
-    }
+  .detailsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
-    .itemTitle {
-        font-size: 1.5rem;
-    }
+  .itemTitle {
+    font-size: 1.5rem;
+  }
+  .container {
+    padding: 0 1rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
 }
