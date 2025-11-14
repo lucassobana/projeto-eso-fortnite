@@ -56,8 +56,8 @@ export function UserProfile() {
       setError('');
       try {
         const [profileRes, inventoryRes] = await Promise.all([
-          fetch(`http://localhost:4000/api/users/${userId}`),
-          fetch(`http://localhost:4000/api/user/inventory/${userId}`)
+          fetch(`http://projeto-eso-fortnite-production.up.railway.app/api/users/${userId}`),
+          fetch(`http://projeto-eso-fortnite-production.up.railway.app/api/user/inventory/${userId}`)
         ]);
 
         if (!profileRes.ok) {

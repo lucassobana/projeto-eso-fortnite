@@ -28,7 +28,7 @@
 //     async function fetchCosmetics() {
 //       setLoading(true);
 //       try {
-//         const res = await fetch("http://localhost:4000/api/cosmetics");
+//         const res = await fetch("http://projeto-eso-fortnite-production.up.railway.app/api/cosmetics");
 //         const data: Cosmetic[] = await res.json();
 
 //         let filtered = data;

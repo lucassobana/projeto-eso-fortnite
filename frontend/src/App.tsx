@@ -54,7 +54,7 @@ export function App() {
 
     async function fetchItems() {
       try {
-        const res = await fetch("http://localhost:4000/api/cosmetics");
+        const res = await fetch("http://projeto-eso-fortnite-production.up.railway.app/api/cosmetics");
         const data = await res.json();
         setItems(data);
         setFilteredItems(data);
@@ -75,7 +75,7 @@ export function App() {
     async function fetchInventory() {
       if (userData) {
         try {
-          const res = await fetch(`http://localhost:4000/api/user/inventory/${userData.id}`);
+          const res = await fetch(`http://projeto-eso-fortnite-production.up.railway.app/api/user/inventory/${userData.id}`);
           if (!res.ok) {
             throw new Error('Erro ao buscar inventário do usuário');
           }
@@ -121,7 +121,7 @@ export function App() {
     }
 
     try {
-      const response = await fetch("http://localhost:4000/api/user/buy", {
+      const response = await fetch("http://projeto-eso-fortnite-production.up.railway.app/api/user/buy", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -159,7 +159,7 @@ export function App() {
     }
     
     try {
-      const response = await fetch("http://localhost:4000/api/user/refund", {
+      const response = await fetch("http://projeto-eso-fortnite-production.up.railway.app/api/user/refund", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

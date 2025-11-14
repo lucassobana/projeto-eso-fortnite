@@ -10,7 +10,7 @@
     "migrate": "prisma migrate dev --name init",
     "sync:api": "tsx src/services/syncFortniteApi.ts",
     "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "npx prisma migrate deploy && node dist/server.js"
   },
   "keywords": [],
   "author": "",

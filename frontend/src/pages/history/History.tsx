@@ -54,7 +54,7 @@ export function History() {
             setLoading(true);
             setError('');
             try {
-                const res = await fetch(`http://localhost:4000/api/user/history/${userId}`);
+                const res = await fetch(`http://projeto-eso-fortnite-production.up.railway.app/api/user/history/${userId}`);
                 if (!res.ok) {
                     throw new Error('Falha ao carregar o histórico.');
                 }
