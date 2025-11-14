@@ -1,3 +1,5 @@
+// Em: backend/src/server.ts
+
 import express from 'express';
 import cors from 'cors';
 import cron from 'node-cron';
@@ -20,14 +22,14 @@ async function startServer() {
   app.use('/api/auth', auth);
   app.use('/api/user', inventoryRoutes);
 
-  console.log('Sincronização inicial em andamento...');
-  await syncFortniteApi();
-  console.log('Sincronização inicial concluída.');
-
   cron.schedule('0 */4 * * *', async () => {
     console.log('Executando sincronização agendada (a cada 4 horas)...');
-    await syncFortniteApi();
-    console.log('Sincronização agendada concluída.');
+    try {
+      await syncFortniteApi();
+      console.log('Sincronização agendada concluída.');
+    } catch (err) {
+      console.error('Erro na sincronização agendada:', err);
+    }
   });
 
   app.listen(port, HOST, () => {
@@ -36,9 +38,9 @@ async function startServer() {
 
     console.log('Disparando sincronização inicial em background...');
     syncFortniteApi().then(() => {
-      console.log('Sincronização inicial em background concluída.');
+      console.log('✅ Sincronização inicial em background concluída.');
     }).catch(err => {
-      console.error('Erro na sincronização inicial em background:', err);
+      console.error('❌ Erro na sincronização inicial em background:', err);
     });
   });
 }
