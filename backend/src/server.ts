@@ -15,8 +15,15 @@ async function startServer() {
   const port = parseInt(process.env.PORT || "4000", 10);
   const HOST = '0.0.0.0';
 
-  app.use(cors());
   app.use(express.json());
+  app.use(cors({
+    origin: [
+      'http://localhost:5173',
+      'http://localhost:3000',
+      //! 'https://seu-site-no-vercel.app' URL VERCEL
+    ],
+    methods: ['GET', 'POST']
+  }));
 
   app.use('/api', cosmeticRoutes, usersRoutes);
   app.use('/api/auth', auth);

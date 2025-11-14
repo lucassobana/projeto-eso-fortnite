@@ -54,7 +54,7 @@ export function FilterPanel({ onApplyFilters }: FilterPanelProps) {
   useEffect(() => {
     async function fetchFilters() {
       try {
-        const res = await fetch("http://projeto-eso-fortnite-production.up.railway.app/api/cosmetics");
+        const res = await fetch("https://projeto-eso-fortnite-production.up.railway.app/api/cosmetics");
         const data: BackendItem[] = await res.json();
 
         if (!Array.isArray(data)) {

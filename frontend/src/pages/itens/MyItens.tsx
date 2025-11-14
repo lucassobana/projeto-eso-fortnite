@@ -49,7 +49,7 @@ export function MyItems() {
       setLoading(true);
       setError("");
       try {
-        const res = await fetch(`http://projeto-eso-fortnite-production.up.railway.app/api/user/inventory/${userId}`);
+        const res = await fetch(`https://projeto-eso-fortnite-production.up.railway.app/api/user/inventory/${userId}`);
         
         if (!res.ok) {
           throw new Error("Falha ao carregar o inventário.");
@@ -98,7 +98,7 @@ export function MyItems() {
     }
 
     try {
-      const response = await fetch("http://projeto-eso-fortnite-production.up.railway.app/api/user/refund", {
+      const response = await fetch("https://projeto-eso-fortnite-production.up.railway.app/api/user/refund", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

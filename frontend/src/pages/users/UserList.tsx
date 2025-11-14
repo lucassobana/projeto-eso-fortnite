@@ -45,7 +45,7 @@ export function UserList() {
       setLoading(true);
       setError('');
       try {
-        const res = await fetch(`http://projeto-eso-fortnite-production.up.railway.app/api/users?page=${currentPage}&limit=10`);
+        const res = await fetch(`https://projeto-eso-fortnite-production.up.railway.app/api/users?page=${currentPage}&limit=10`);
         if (!res.ok) {
           throw new Error('Falha ao carregar a lista de usuários.');
         }

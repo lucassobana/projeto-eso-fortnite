@@ -15,7 +15,7 @@ export function Login() {
         setError("");
 
         try {
-            const response = await fetch("http://projeto-eso-fortnite-production.up.railway.app/api/auth/login", {
+            const response = await fetch("https://projeto-eso-fortnite-production.up.railway.app/api/auth/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
