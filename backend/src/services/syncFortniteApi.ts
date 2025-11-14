@@ -88,33 +88,40 @@ export async function syncFortniteApi() {
       return;
     }
 
-    const transactions = allCosmetics.map((cosmetic: ApiCosmetic) => {
-      const isNew = newCosmeticIds.has(cosmetic.id);
-      const isOnSale = shopCosmeticsMap.has(cosmetic.id);
-      const price = shopCosmeticsMap.get(cosmetic.id) || 0;
-      const addedDate = new Date(cosmetic.added!)
+    const BATCH_SIZE = 500;
 
-      const dataForDb = {
-        id: cosmetic.id,
-        name: cosmetic.name,
-        description: cosmetic.description ?? null,
-        type: cosmetic.type?.value ?? null,
-        rarity: cosmetic.rarity?.value ?? null,
-        imageUrl: cosmetic.images?.icon ?? null,
-        price,
-        isNew,
-        isOnSale,
-        added: new Date(cosmetic.added)
-      };
+    for (let i = 0; i < allCosmetics.length; i += BATCH_SIZE) {
+      const batch = allCosmetics.slice(i, i + BATCH_SIZE);
+      console.log(`Processando lote ${Math.floor(i / BATCH_SIZE) + 1} de ${Math.ceil(allCosmetics.length / BATCH_SIZE)}...`);
 
-      return prisma.cosmetic.upsert({
-        where: { id: cosmetic.id },
-        update: dataForDb,
-        create: dataForDb,
+      const transactions = batch.map((cosmetic: ApiCosmetic) => {
+        const isNew = newCosmeticIds.has(cosmetic.id);
+        const isOnSale = shopCosmeticsMap.has(cosmetic.id);
+        const price = shopCosmeticsMap.get(cosmetic.id) || 0;
+        const addedDate = new Date(cosmetic.added!)
+
+        const dataForDb = {
+          id: cosmetic.id,
+          name: cosmetic.name,
+          description: cosmetic.description ?? null,
+          type: cosmetic.type?.value ?? null,
+          rarity: cosmetic.rarity?.value ?? null,
+          imageUrl: cosmetic.images?.icon ?? null,
+          price,
+          isNew,
+          isOnSale,
+          added: new Date(cosmetic.added)
+        };
+
+        return prisma.cosmetic.upsert({
+          where: { id: cosmetic.id },
+          update: dataForDb,
+          create: dataForDb,
+        });
       });
-    });
 
-    await prisma.$transaction(transactions);
+      await prisma.$transaction(transactions);
+    }
 
     console.log('✅ Sincronização concluída com sucesso!');
 
