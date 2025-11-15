@@ -102,7 +102,7 @@ export function UserList() {
             {users.map((user) => (
               <tr key={user.id}>
                 <td>
-                  <Link to={`/users/${user.id}`} className={styles.userLink}>
+                  <Link to={`/all-users/${user.id}`} className={styles.userLink}>
                     {user.email}
                   </Link>
                 </td>
